@@ -1,6 +1,8 @@
 from datasets import load_dataset
 import pandas as pd
 import numpy as np
+import os 
+os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
 
 # Load pre-training tables from huggingface
 

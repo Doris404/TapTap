@@ -6,7 +6,7 @@ import lightgbm as lgb
 import pandas as pd
 from sklearn.metrics import r2_score
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def get_score(train_data, test_data, target_col, best_params):
     train_x = train_data.drop(columns=target_col).copy()
