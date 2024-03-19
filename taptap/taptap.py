@@ -64,9 +64,12 @@ class Taptap:
         """
         # Load Model and Tokenizer from HuggingFace
         self.llm = llm
-        self.tokenizer = AutoTokenizer.from_pretrained(self.llm)
+        path = '/home/ruc/xiaotong/LLMDataGen/model/TapTap/taptap-distill'
+        # self.tokenizer = AutoTokenizer.from_pretrained(self.llm)
+        self.tokenizer = AutoTokenizer.from_pretrained(path)
         self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.model = AutoModelForCausalLM.from_pretrained(self.llm)
+        self.model = AutoModelForCausalLM.from_pretrained(path)
+        # self.model = AutoModelForCausalLM.from_pretrained(self.llm)
 
         # Set the training hyperparameters
         self.experiment_dir = experiment_dir
@@ -151,7 +154,7 @@ class Taptap:
 
         # Set training hyperparameters
         logging.info("Create Taptap Trainer...")
-        training_args = TrainingArguments(self.experiment_dir,
+        training_args = TrainingArguments(self.experiment_dir, # Err: torch.cuda.DeferredCudaCallError: CUDA call failed lazily at initialization with error: device >= 0 && device < num_gpus INTERNAL ASSERT FAILED at "../aten/src/ATen/cuda/CUDAContext.cpp":50, please report a bug to PyTorch. device=1, num_gpus=
                                           max_steps=self.steps,
                                           per_device_train_batch_size=self.batch_size,
                                           save_steps=self.steps,
@@ -161,7 +164,7 @@ class Taptap:
                                       data_collator=TaptapDataCollator(self.tokenizer))
 
         logging.info("Start training...")
-        great_trainer.train(resume_from_checkpoint=resume_from_checkpoint)
+        great_trainer.train(resume_from_checkpoint=resume_from_checkpoint) # TypeError: '<' not supported between instances of 'list' and 'int'
         return great_trainer
 
     def sample(self,

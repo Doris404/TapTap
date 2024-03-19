@@ -5,7 +5,7 @@ import os
 os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
 
 # Load pre-training tables from huggingface
-
+# This py can not run without connecting hugging face 24/3/19
 if __name__ == '__main__':
     data = {}
     dataset = load_dataset(path='ztphs980/taptap_datasets')

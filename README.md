@@ -12,6 +12,41 @@ Generative Table Pre-training Empowers Models for Tabular Prediction
 
 This is the official Github repository for the paper "Generative Table Pre-training Empowers Models for Tabular Prediction" by Tianping Zhang, Shaowen Wang, Shuicheng Yan, Jian Li, and Qian Liu.
 
+## Log
+### 2024/3/19
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3" Must give 4 gpu devices to this model (PS: I don't know why, but it work when 4 gpu all available while it dosen't work when only 2 available)
+
+`TypeError: '<' not supported between instances of 'list' and 'int'` on `> /home/ruc/xiaotong/LLMDataGen/model/TapTap/taptap/taptap.py(167)fit() great_trainer.train(resume_from_checkpoint=resume_from_checkpoint)`
+```bash
+The score training by the original data is 0.8242972746040172
+  0%|                                                                                                                                        | 0/1000 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/ruc/xiaotong/LLMDataGen/model/TapTap/example.py", line 47, in <module>
+    model.fit(train_data, target_col=target_col, task=task) # TypeError: '<' not supported between instances of 'list' and 'int'
+  File "/home/ruc/xiaotong/LLMDataGen/model/TapTap/taptap/taptap.py", line 167, in fit
+    great_trainer.train(resume_from_checkpoint=resume_from_checkpoint) # TypeError: '<' not supported between instances of 'list' and 'int'
+  File "/home/ruc/.conda/envs/llmdatagen/lib/python3.9/site-packages/transformers/trainer.py", line 1624, in train
+    return inner_training_loop( # TypeError: '<' not supported between instances of 'list' and 'int'
+  File "/home/ruc/.conda/envs/llmdatagen/lib/python3.9/site-packages/transformers/trainer.py", line 1928, in _inner_training_loop
+    for step, inputs in enumerate(epoch_iterator): # TypeError: '<' not supported between instances of 'list' and 'int'
+  File "/home/ruc/.conda/envs/llmdatagen/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 631, in __next__
+    data = self._next_data()
+  File "/home/ruc/.conda/envs/llmdatagen/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 675, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/home/ruc/.conda/envs/llmdatagen/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 49, in fetch
+    data = self.dataset.__getitems__(possibly_batched_index)
+  File "/home/ruc/.conda/envs/llmdatagen/lib/python3.9/site-packages/datasets/arrow_dataset.py", line 2814, in __getitems__
+    batch = self.__getitem__(keys)
+  File "/home/ruc/.conda/envs/llmdatagen/lib/python3.9/site-packages/datasets/arrow_dataset.py", line 2810, in __getitem__
+    return self._getitem(key)
+  File "/home/ruc/xiaotong/LLMDataGen/model/TapTap/taptap/taptap_dataset.py", line 51, in _getitem
+    row = self._data.fast_slice(key, 1)
+  File "/home/ruc/.conda/envs/llmdatagen/lib/python3.9/site-packages/datasets/table.py", line 138, in fast_slice
+    if offset < 0: # TypeError: '<' not supported between instances of 'list' and 'int'
+TypeError: '<' not supported between instances of 'list' and 'int'
+  0%|                                                                                                                                        | 0/1000 [00:00<?, ?it/s]
+offset = [14968, 12277, 14741, 9199, 15070, 8155, 14868, 1908, 9803, 12628, 384, 4868, 14502, 7128, 167, 8621, 9047, 1064, 3302, 2347, 6806, 1360, 6211, 14100, 11536, 5531, 2645, 8485, 6999, 6779, 14466, 9604]
+```
+
 ## Overview
 
 Recently, the topic of table pre-training has attracted considerable research interest. However, how to employ table pre-training to boost the performance of tabular prediction (e.g., [Housing price prediction](https://www.coursera.org/projects/tensorflow-beginner-predicting-house-prices-regression)) remains an open challenge. In this project, we present **TapTap**, the first attempt that leverages table pre-training to empower models for tabular prediction.

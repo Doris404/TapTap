@@ -6,7 +6,7 @@ import lightgbm as lgb
 import pandas as pd
 from sklearn.metrics import r2_score
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 
 def get_score(train_data, test_data, target_col, best_params):
     train_x = train_data.drop(columns=target_col).copy()
@@ -44,7 +44,7 @@ if __name__ == '__main__':
                    gradient_accumulation_steps=2)
 
     # Fine-tuning
-    model.fit(train_data, target_col=target_col, task=task)
+    model.fit(train_data, target_col=target_col, task=task) # TypeError: '<' not supported between instances of 'list' and 'int'
 
     # Sampling
     synthetic_data = model.sample(n_samples=2 * train_data.shape[0],
@@ -60,10 +60,3 @@ if __name__ == '__main__':
         synthetic_data, test_data, target_col=target_col, best_params=best_params
     )
     print("The score training by the synthetic data is", new_score)
-
-
-
-
-
-
-
